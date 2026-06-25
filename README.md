@@ -25,9 +25,9 @@ Navigate to the backend directory, isolate dependencies, and spin up the server:
 #### bash
 cd backend
 python -m venv venv
-# Activate on Windows:
+##### Activate on Windows:
 venv\Scripts\activate
-# Activate on Mac/Linux:
+##### Activate on Mac/Linux:
 source venv/bin/activate
 
 pip install -r requirements.txt
