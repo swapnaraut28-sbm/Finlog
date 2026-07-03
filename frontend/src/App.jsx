@@ -17,7 +17,7 @@ const [message, setMessage] = useState("Connecting to backend...")
  return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'sans-serif' }}>
       <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', textAlign: 'center' }}>
-        <h1>PyStack Pilot Dashboard 🚀</h1>
+        <h1>Finlog : Micro-logging. Macro-insights. 🚀</h1>
         <p style={{ color: message.includes('running') ? 'green' : 'red', fontWeight: 'bold' }}>
           {message}
         </p>

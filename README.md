@@ -33,6 +33,10 @@ source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --reload
 
+Steps to Start BackEnd
+1. \pyFullStackPilot\backend> .\venv\Scripts\Activate.ps1
+2. \pyFullStackPilot\backend> uvicorn main:app --reload 
+
 #### The backend API will run natively at http://127.0.0.1:8000
 
 ### 2. Frontend Setup (React)
@@ -42,4 +46,8 @@ cd frontend
 npm install
 npm run dev
 
+Steps to Start FrontEnd
+1. PS \pyFullStackPilot\frontend> npm run dev 
+
 #### Open http://localhost:5173 in your browser to view the application!
+
