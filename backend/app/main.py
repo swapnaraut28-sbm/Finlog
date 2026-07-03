@@ -33,9 +33,10 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/api/categories")
+@app.post("/api/category")
 def create_category(category: CategoryBase, db: Session = Depends(get_db)):
-    db.add(models.Category(**category.model_dump()))
+    db_category = models.Category(name=category.name)
+    db.add(db_category)
     db.commit()
-    db.refresh(category)
-    return category
+    db.refresh(db_category)
+    return db_category

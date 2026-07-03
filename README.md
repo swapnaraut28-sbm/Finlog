@@ -1,4 +1,4 @@
-# Project Name PyFullStackPilot
+# Project Name Finlog : Micro-logging. Macro-insights.
 
 ## 🛠️ Tech Stack
 
