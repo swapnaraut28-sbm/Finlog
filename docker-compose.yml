@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # ─── 1. DATABASE CONTAINER ───
+  db:
+    image: postgres:15-alpine
+    container_name: mypostgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test123
+      POSTGRES_DB: finlog
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ─── 2. BACKEND CONTAINER ───
+  backend:
+    build: ./backend
+    container_name: mybackend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:test123@db:5432/finlog"
+    depends_on:
+      - db
+    volumes:
+      - ./backend/app:/app
+
+  # ─── 3. FRONTEND CONTAINER ───
+  frontend:
+    build: ./frontend
+    container_name: myfrontend
+    ports:
+      - "5173:5173"  # Maps port 5173 of the container to localhost:5173 on your machine
+    volumes:
+      - /node_modules   # Anonymous volume: Prevents host node_modules from overwriting container
+      - /tmp/.vite_cache # Anonymous volume: Keeps the Vite cache isolated in container RAM
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000  # Tells React where to find the FastAPI backend
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

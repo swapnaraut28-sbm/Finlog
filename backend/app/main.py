@@ -40,3 +40,30 @@ def create_category(category: CategoryBase, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_category)
     return db_category
+
+@app.get("/api/category")
+def read_categories(db: Session = Depends(get_db)):
+    categories = db.query(models.Category).all()
+    return categories
+
+@app.delete("/api/category/{category_id}")
+def delete_category(category_id: int, db: Session = Depends(get_db)):
+    category = db.query(models.Category).filter(models.Category.id == category_id).first()
+    if category:
+        db.delete(category)
+        db.commit()
+        return {"message": "Category deleted successfully"}
+    else:
+        return {"message": "Category not found"}
+    
+# @app.put("/api/category/{category_id}")
+# def update_category(category_id: int, category: CategoryBase, db: Session = Depends(get_db)):
+#     db_category = db.query(models.Category).filter(models.Category.id == category_id).first()
+#     if db_category:
+#         db_category.name = category.name
+#         db.commit()
+#         db.refresh(db_category)
+#         return db_category
+#     else:
+#         return {"message": "Category not found"}
+    
