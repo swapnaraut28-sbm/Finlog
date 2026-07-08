@@ -49,7 +49,7 @@ pipeline {
 
     post {
         always {
-            node {
+            script {
                 // Clean up Docker images and containers to free up space
                 echo 'Cleaning up Docker images and containers...'
                 sh "docker system prune -af"
