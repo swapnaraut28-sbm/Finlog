@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // This looks for the credential ID 'docker-hub-credentials' you created in Jenkins
-        DOCKER_CREDS = credentials('docker-hub-credentials')
+        DOCKER_CREDS = credentials('swapnaraut')
         // Change 'your-dockerhub-username' to your actual Docker Hub username
         IMAGE_FRONTEND = "swapnaraut28/finlog-frontend:latest"
         IMAGE_BACKEND  = "swapnaraut28/finlog-backend:latest"
@@ -49,8 +49,11 @@ pipeline {
 
     post {
         always {
-            echo 'Cleaning up intermediate Docker build caches to save disk space...'
-            sh "docker image prune -f"
+            node {
+                // Clean up Docker images and containers to free up space
+                echo 'Cleaning up Docker images and containers...'
+                sh "docker system prune -af"
+            }
         }
     }
 }
