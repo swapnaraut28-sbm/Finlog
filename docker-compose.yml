@@ -6,9 +6,9 @@ services:
     image: postgres:15-alpine
     container_name: mypostgresdb
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: test123
-      POSTGRES_DB: finlog
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -21,7 +21,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: "postgresql://postgres:test123@db:5432/finlog"
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - db
     volumes:
