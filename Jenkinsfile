@@ -8,6 +8,9 @@ pipeline {
         IMAGE_FRONTEND = "swapnaraut28/myfrontend:latest"
         IMAGE_BACKEND  = "swapnaraut28/mybackend:latest"
         IMAGE_POSTGRES  = "swapnaraut28/postgres:15-alpine"
+
+        ENV_FILE = credentials('postgresenv')
+
     }
 
     stages {
@@ -18,8 +21,27 @@ pipeline {
             }
         }
 
+        stage('Load and Use .env Variables') {
+            steps {
+                script {
+                    // Method 1: Source the file directly within a single shell execution block
+                    sh """
+                        # Export the variables from the secret file
+                        export \$(cat ${ENV_FILE} | xargs)
+                        
+                        # Use your variables safely inside this shell session
+                        echo "POSTGRES_USER: \$POSTGRES_USER"
+                        echo "POSTGRES_PASSWORD: \$POSTGRES_PASSWORD"
+                        echo "POSTGRES_DB: \$POSTGRES_DB"
+                        echo "DATABASE_URL: \$DATABASE_URL"
+                    """
+                }
+            }
+        }
+
         stage('Build with Compose') {
             steps {
+
                 echo 'Building production Docker images using docker compose...'
                 // Docker Compose will read your setup and build the images locally
                 sh "docker compose build"
