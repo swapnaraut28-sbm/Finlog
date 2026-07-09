@@ -5,8 +5,8 @@ pipeline {
         // This looks for the credential ID 'docker-hub-credentials' you created in Jenkins
         DOCKER_CREDS = credentials('swapnaraut')
         // Change 'your-dockerhub-username' to your actual Docker Hub username
-        IMAGE_FRONTEND = "swapnaraut28/finlog-frontend:latest"
-        IMAGE_BACKEND  = "swapnaraut28/finlog-backend:latest"
+        IMAGE_FRONTEND = "swapnaraut28/myfrontend:latest"
+        IMAGE_BACKEND  = "swapnaraut28/mybackend:latest"
         IMAGE_POSTGRES  = "swapnaraut28/postgres:15-alpine"
     }
 
@@ -31,6 +31,11 @@ pipeline {
                 echo 'Logging into Docker Hub and pushing images...'
                 // Securely logs into Docker Hub using the credentials masked by Jenkins
                 sh "echo \$DOCKER_CREDS_PSW | docker login -u \$DOCKER_CREDS_USR --password-stdin"
+                // sh "echo docker tagging"
+                // sh "docker tag ${IMAGE_FRONTEND} swapnaraut28/finlog-frontend:latest"
+                // sh "docker tag ${IMAGE_BACKEND} swapnaraut28/finlog-backend:latest"
+                // sh "docker tag ${IMAGE_POSTGRES} swapnaraut28/postgres:15-alpine"
+                sh "echo docker pushing images"
                 sh "docker push ${IMAGE_FRONTEND}"
                 sh "docker push ${IMAGE_BACKEND}"
                 sh "docker push ${IMAGE_POSTGRES}"
@@ -49,11 +54,19 @@ pipeline {
 
     post {
         always {
+            // Cleans up workspace files after the run is complete
+            cleanWs()
             script {
-                // Clean up Docker images and containers to free up space
+                // Optionally, you can also clean up Docker images and containers to free up space
                 echo 'Cleaning up Docker images and containers...'
                 sh "docker system prune -af"
             }
+        }
+        success {
+            echo 'Build, test, and deployment completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the console logs for issues.'
         }
     }
 }
