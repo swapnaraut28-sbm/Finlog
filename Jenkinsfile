@@ -27,7 +27,7 @@ pipeline {
                     // Method 1: Source the file directly within a single shell execution block
                     sh """
                         # Export the variables from the secret file
-                        export \$(cat ${ENV_FILE} | xargs)
+                        export \$(grep -v '^#' ${ENV_FILE} | grep -v '^$' | xargs)
                         
                         # Use your variables safely inside this shell session
                         echo "POSTGRES_USER: \$POSTGRES_USER"
