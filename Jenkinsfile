@@ -34,19 +34,22 @@ pipeline {
                         echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
                         echo "POSTGRES_DB: $POSTGRES_DB"
                         echo "DATABASE_URL: $DATABASE_URL"
+
+                        docker compose build
                     '''
                 }
+
             }
         }
 
-        stage('Build with Compose') {
-            steps {
+        // stage('Build with Compose') {
+        //     steps {
 
-                echo 'Building production Docker images using docker compose...'
-                // Docker Compose will read your setup and build the images locally
-                sh "docker compose build"
-            }
-        }
+        //         echo 'Building production Docker images using docker compose...'
+        //         // Docker Compose will read your setup and build the images locally
+        //         sh "docker compose build"
+        //     }
+        // }
 
         stage('Push to Registry') {
             steps {
