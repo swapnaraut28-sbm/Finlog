@@ -30,6 +30,10 @@ pipeline {
                         export $(grep -v '^#' $ENV_FILE | grep -v '^$' | xargs)
                         
                         # Use your variables safely inside this shell session
+                        POSTGRES_USER = $POSTGRES_USER
+                        POSTGRES_PASSWORD = $POSTGRES_PASSWORD
+                        POSTGRES_DB = $POSTGRES_DB
+                        DATABASE_URL = $DATABASE_URL
                         echo "POSTGRES_USER: $POSTGRES_USER"
                         echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
                         echo "POSTGRES_DB: $POSTGRES_DB"
