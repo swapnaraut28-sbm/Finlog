@@ -25,16 +25,16 @@ pipeline {
             steps {
                 script {
                     // Method 1: Source the file directly within a single shell execution block
-                    sh """
+                    sh '''
                         # Export the variables from the secret file
-                        export \$(grep -v '^#' \$ENV_FILE | grep -v '^\$' | xargs)
+                        export $(grep -v '^#' $ENV_FILE | grep -v '^$' | xargs)
                         
                         # Use your variables safely inside this shell session
-                        echo "POSTGRES_USER: \$POSTGRES_USER"
-                        echo "POSTGRES_PASSWORD: \$POSTGRES_PASSWORD"
-                        echo "POSTGRES_DB: \$POSTGRES_DB"
-                        echo "DATABASE_URL: \$DATABASE_URL"
-                    """
+                        echo "POSTGRES_USER: $POSTGRES_USER"
+                        echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+                        echo "POSTGRES_DB: $POSTGRES_DB"
+                        echo "DATABASE_URL: $DATABASE_URL"
+                    '''
                 }
             }
         }
