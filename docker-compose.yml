@@ -30,7 +30,7 @@ services:
 
   # ─── 3. FRONTEND CONTAINER ───
   frontend:
-    image: myfrontend:latest
+    image: swapnaraut28/myfrontend:latest
     build: ./frontend
     container_name: myfrontend_run
     ports:
