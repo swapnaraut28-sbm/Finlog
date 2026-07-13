@@ -4,7 +4,7 @@ services:
   # ─── 1. DATABASE CONTAINER ───
   db:
     image: postgres:15-alpine
-    container_name: mypostgresdb
+    container_name: mypostgresdb_run
     environment:
        POSTGRES_USER: ${POSTGRES_USER}
        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -16,9 +16,9 @@ services:
 
   # ─── 2. BACKEND CONTAINER ───
   backend:
-    image: mybackend:latest
+    image: swapnaraut28/mybackend:latest
     build: ./backend
-    container_name: mybackend
+    container_name: mybackend_run
     ports:
       - "8000:8000"
     environment:
@@ -32,7 +32,7 @@ services:
   frontend:
     image: myfrontend:latest
     build: ./frontend
-    container_name: myfrontend
+    container_name: myfrontend_run
     ports:
       - "5173:5173"  # Maps port 5173 of the container to localhost:5173 on your machine
     volumes:
