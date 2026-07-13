@@ -7,7 +7,7 @@ pipeline {
         // Change 'your-dockerhub-username' to your actual Docker Hub username
         IMAGE_FRONTEND = "swapnaraut28/myfrontend:latest"
         IMAGE_BACKEND  = "swapnaraut28/mybackend:latest"
-        IMAGE_POSTGRES  = "swapnaraut28/postgres:15-alpine"  
+        //IMAGE_POSTGRES  = "swapnaraut28/postgres:15-alpine"  
 
         ENV_FILE = credentials('postgresenv')
 
@@ -60,7 +60,7 @@ pipeline {
                 sh "echo docker pushing images"
                 sh "docker push ${IMAGE_FRONTEND}"
                 sh "docker push ${IMAGE_BACKEND}"
-                sh "docker push ${IMAGE_POSTGRES}"
+                //sh "docker push ${IMAGE_POSTGRES}"
             }
         }
 
