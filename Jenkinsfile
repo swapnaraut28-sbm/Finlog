@@ -9,31 +9,31 @@ pipeline {
         IMAGE_BACKEND  = "swapnaraut28/mybackend:latest"
         //IMAGE_POSTGRES  = "swapnaraut28/postgres:15-alpine"  
 
-        ENV_FILE = credentials('postgresenv')
+        //ENV_FILE = credentials('postgresenv')
 
     }
 
     stages {
-        stage('Verify environment variables') {
-            steps {
-                script {
-                    // Check if the environment variables are set
-                    if (!env.IMAGE_FRONTEND || !env.IMAGE_BACKEND) {
-                        error "Environment variables for Docker images are not set."
-                        echo "Secret File Path: ${env.ENV_FILE}"
-                        echo "Frontend Image: ${env.IMAGE_FRONTEND}"
-                        echo "Backend Image: ${env.IMAGE_BACKEND}"
-                        echo "Environment variables are set correctly."
-                    }
-                    else {
-                        echo "Secret File Path: ${env.ENV_FILE}"
-                        echo "Frontend Image: ${env.IMAGE_FRONTEND}"
-                        echo "Backend Image: ${env.IMAGE_BACKEND}"
-                        echo "Environment variables are set correctly."
-                }
-            }
-        }
-        }
+        // stage('Verify environment variables') {
+        //     steps {
+        //         script {
+        //             // Check if the environment variables are set
+        //             if (!env.IMAGE_FRONTEND || !env.IMAGE_BACKEND) {
+        //                 error "Environment variables for Docker images are not set."
+        //                 echo "Secret File Path: ${env.ENV_FILE}"
+        //                 echo "Frontend Image: ${env.IMAGE_FRONTEND}"
+        //                 echo "Backend Image: ${env.IMAGE_BACKEND}"
+        //                 echo "Environment variables are set correctly."
+        //             }
+        //             else {
+        //                 echo "Secret File Path: ${env.ENV_FILE}"
+        //                 echo "Frontend Image: ${env.IMAGE_FRONTEND}"
+        //                 echo "Backend Image: ${env.IMAGE_BACKEND}"
+        //                 echo "Environment variables are set correctly."
+        //         }
+        //     }
+        // }
+        // }
 
         stage('Checkout') {
             steps {
@@ -42,21 +42,19 @@ pipeline {
             }
         }
 
-        stage('Load and Use .env Variables') {
-            steps {
-                script {
-                    // Method 1: Source the file directly within a single shell execution block
-                    sh '''
+        // stage('Load and Use .env Variables') {
+        //     steps {
+        //         script {
+        //             // Method 1: Source the file directly within a single shell execution block
+        //             sh '''
+        //                 sh cp "$ENV_FILE" .env
 
+        //                 docker compose build --secret id=env,src=$ENV_FILE
+        //             '''
+        //         }
 
-                        sh cp "$ENV_FILE" .env
-
-                        docker compose build
-                    '''
-                }
-
-            }
-        }
+        //     }
+        // }
 
         // stage('Build with Compose') {
         //     steps {
