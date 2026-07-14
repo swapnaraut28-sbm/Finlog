@@ -52,7 +52,7 @@ pipeline {
             steps {
                 echo 'Deploying application locally via Docker Compose...'
                 // Restarts your local containers with the newly updated images
-                sh "docker compose down"
+                sh "docker compose down --remove-orphans"
                 sh "docker compose up -d"
             }
         }
