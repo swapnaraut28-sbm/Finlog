@@ -26,18 +26,11 @@ pipeline {
                 script {
                     // Method 1: Source the file directly within a single shell execution block
                     sh '''
-                        # Export the variables from the secret file
-                        export $(grep -v '^#' $ENV_FILE | grep -v '^$' | xargs)
-                        
-                        # Use your variables safely inside this shell session
-                        echo "POSTGRES_USER: $POSTGRES_USER"
-                        echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
-                        echo "POSTGRES_DB: $POSTGRES_DB"
-                        echo "DATABASE_URL: $DATABASE_URL"
 
-                        docker compose down
 
-                        docker compose up -d --build --force-recreate
+                        sh "cp \$ENV_FILE .env"
+
+                        docker compose build
                     '''
                 }
 
@@ -69,14 +62,14 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
-        //     steps {
-        //         echo 'Deploying application locally via Docker Compose...'
-        //         // Restarts your local containers with the newly updated images
-        //         sh "docker compose down"
-        //         sh "docker compose up -d --build --force-recreate"
-        //     }
-        // }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application locally via Docker Compose...'
+                // Restarts your local containers with the newly updated images
+                sh "docker compose down"
+                sh "docker compose up -d --build --force-recreate"
+            }
+        }
     }
 
     post {
