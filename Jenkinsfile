@@ -35,7 +35,9 @@ pipeline {
                         echo "POSTGRES_DB: $POSTGRES_DB"
                         echo "DATABASE_URL: $DATABASE_URL"
 
-                        docker compose build
+                        docker compose down
+
+                        docker compose up -d --build --force-recreate
                     '''
                 }
 
@@ -67,14 +69,14 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application locally via Docker Compose...'
-                // Restarts your local containers with the newly updated images
-                sh "docker compose down"
-                sh "docker compose up -d --build --force-recreate"
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         echo 'Deploying application locally via Docker Compose...'
+        //         // Restarts your local containers with the newly updated images
+        //         sh "docker compose down"
+        //         sh "docker compose up -d --build --force-recreate"
+        //     }
+        // }
     }
 
     post {
