@@ -7,33 +7,13 @@ pipeline {
         // Change 'your-dockerhub-username' to your actual Docker Hub username
         IMAGE_FRONTEND = "swapnaraut28/myfrontend:latest"
         IMAGE_BACKEND  = "swapnaraut28/mybackend:latest"
-        //IMAGE_POSTGRES  = "swapnaraut28/postgres:15-alpine"  
 
-        //ENV_FILE = credentials('postgresenv')
+        ENV_FILE = credentials('postgresenv')
 
     }
 
     stages {
-        // stage('Verify environment variables') {
-        //     steps {
-        //         script {
-        //             // Check if the environment variables are set
-        //             if (!env.IMAGE_FRONTEND || !env.IMAGE_BACKEND) {
-        //                 error "Environment variables for Docker images are not set."
-        //                 echo "Secret File Path: ${env.ENV_FILE}"
-        //                 echo "Frontend Image: ${env.IMAGE_FRONTEND}"
-        //                 echo "Backend Image: ${env.IMAGE_BACKEND}"
-        //                 echo "Environment variables are set correctly."
-        //             }
-        //             else {
-        //                 echo "Secret File Path: ${env.ENV_FILE}"
-        //                 echo "Frontend Image: ${env.IMAGE_FRONTEND}"
-        //                 echo "Backend Image: ${env.IMAGE_BACKEND}"
-        //                 echo "Environment variables are set correctly."
-        //         }
-        //     }
-        // }
-        // }
+
 
         stage('Checkout') {
             steps {
@@ -42,28 +22,15 @@ pipeline {
             }
         }
 
-        // stage('Load and Use .env Variables') {
-        //     steps {
-        //         script {
-        //             // Method 1: Source the file directly within a single shell execution block
-        //             sh '''
-        //                 sh cp "$ENV_FILE" .env
 
-        //                 docker compose build --secret id=env,src=$ENV_FILE
-        //             '''
-        //         }
+        stage('Build with Compose') {
+            steps {
 
-        //     }
-        // }
-
-        // stage('Build with Compose') {
-        //     steps {
-
-        //         echo 'Building production Docker images using docker compose...'
-        //         // Docker Compose will read your setup and build the images locally
-        //         sh "docker compose build"
-        //     }
-        // }
+                echo 'Building production Docker images using docker compose...'
+                // Docker Compose will read your setup and build the images locally
+                sh "docker compose build --no-cache"
+            }
+        }
 
         stage('Push to Registry') {
             steps {
@@ -86,21 +53,12 @@ pipeline {
                 echo 'Deploying application locally via Docker Compose...'
                 // Restarts your local containers with the newly updated images
                 sh "docker compose down"
-                sh "docker compose up -d --build --force-recreate"
+                sh "docker compose up -d"
             }
         }
     }
 
     post {
-        // always {
-        //     // Cleans up workspace files after the run is complete
-        //     cleanWs()
-        //     script {
-        //         // Optionally, you can also clean up Docker images and containers to free up space
-        //         echo 'Cleaning up Docker images and containers...'
-        //         sh "docker system prune -af"
-        //     }
-        // }
         success {
             echo 'Build, test, and deployment completed successfully!'
         }
