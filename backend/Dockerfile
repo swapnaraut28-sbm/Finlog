@@ -29,6 +29,7 @@ COPY ./app .
 # FastAPI / Uvicorn example
 #CMD ["sh", "-c", "sleep 20 && uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 #CMD ["sh", "-c", "sleep 20 && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
-CMD ["sh"]
+CMD ["sh", "-c", "tail -f /dev/null"]
+
 
 #CMD ["python","--reload"]
