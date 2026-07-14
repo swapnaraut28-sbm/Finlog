@@ -28,7 +28,7 @@ pipeline {
                     sh '''
 
 
-                        sh "cp $ENV_FILE .env"
+                        sh cp $ENV_FILE .env
 
                         docker compose build
                     '''
