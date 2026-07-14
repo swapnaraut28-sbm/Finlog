@@ -29,8 +29,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - db
-    volumes:
-      - ./backend/app:/app
+    # volumes:
+    #   - ./backend/app:/app
     networks:
       - finlog_shared_net   # Bind to the exact same network  
     
