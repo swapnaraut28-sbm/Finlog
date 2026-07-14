@@ -27,6 +27,6 @@ COPY ./app .
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 #CMD ["uvicorn", "main:app", "--reload"]
 # FastAPI / Uvicorn example
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "sleep 20 && uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 #CMD ["python","--reload"]

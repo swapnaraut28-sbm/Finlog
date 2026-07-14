@@ -14,7 +14,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - finlog_shared_net   # Bind to the exact same network  
+      finlog_shared_net:   # Bind to the exact same network  
+          aliases:
+          - db               # Explicitly maps the "db" alias on the network
 
   # ─── 2. BACKEND CONTAINER ───
   backend:
@@ -31,6 +33,7 @@ services:
       - ./backend/app:/app
     networks:
       - finlog_shared_net   # Bind to the exact same network  
+    
 
   # ─── 3. FRONTEND CONTAINER ───
   frontend:
