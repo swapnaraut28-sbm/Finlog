@@ -78,20 +78,21 @@ pipeline {
     }
 
     post {
-        always {
-            // Cleans up workspace files after the run is complete
-            cleanWs()
-            script {
-                // Optionally, you can also clean up Docker images and containers to free up space
-                echo 'Cleaning up Docker images and containers...'
-                sh "docker system prune -af"
-            }
-        }
+        // always {
+        //     // Cleans up workspace files after the run is complete
+        //     cleanWs()
+        //     script {
+        //         // Optionally, you can also clean up Docker images and containers to free up space
+        //         echo 'Cleaning up Docker images and containers...'
+        //         sh "docker system prune -af"
+        //     }
+        // }
         success {
             echo 'Build, test, and deployment completed successfully!'
         }
         failure {
             echo 'Pipeline failed. Check the console logs for issues.'
+            sh "docker system prune -af"
         }
     }
 }

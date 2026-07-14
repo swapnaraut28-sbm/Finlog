@@ -2,7 +2,8 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+# DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = "postgresql://postgres:test123:5432/finlog"
 
 engine = create_engine(DATABASE_URL)
 
