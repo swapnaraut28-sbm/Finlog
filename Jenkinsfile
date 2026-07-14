@@ -72,7 +72,7 @@ pipeline {
                 echo 'Deploying application locally via Docker Compose...'
                 // Restarts your local containers with the newly updated images
                 sh "docker compose down"
-                sh "docker compose up -d"
+                sh "docker compose up -d --build --force-recreate"
             }
         }
     }
