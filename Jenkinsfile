@@ -14,6 +14,22 @@ pipeline {
     }
 
     stages {
+        stage('Verify environment variables') {
+            steps {
+                script {
+                    // Check if the environment variables are set
+                    if (!env.IMAGE_FRONTEND || !env.IMAGE_BACKEND) {
+                        error "Environment variables for Docker images are not set."
+                    }
+                    else {
+                        echo "Secret File Path: ${env.ENV_FILE}"
+                        echo "Frontend Image: ${env.IMAGE_FRONTEND}"
+                        echo "Backend Image: ${env.IMAGE_BACKEND}"
+                        echo "Environment variables are set correctly."
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 // Jenkins pulls your code from the GitHub repository configuration
@@ -28,7 +44,7 @@ pipeline {
                     sh '''
 
 
-                        sh cp $ENV_FILE .env
+                        sh cp "$ENV_FILE" .env
 
                         docker compose build
                     '''
