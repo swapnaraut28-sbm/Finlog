@@ -26,9 +26,12 @@ pipeline {
         stage('Build with Compose') {
             steps {
 
-                echo 'Building production Docker images using docker compose...'
-                // Docker Compose will read your setup and build the images locally
-                sh "docker compose build --no-cache"
+                echo 'Building production Docker images with environment using docker compose...'
+                sh '''
+                cp "$ENV_FILE" .env
+                docker compose build --no-cache -env-file .env
+                '''              
+                
             }
         }
 
@@ -36,15 +39,12 @@ pipeline {
             steps {
                 echo 'Logging into Docker Hub and pushing images...'
                 // Securely logs into Docker Hub using the credentials masked by Jenkins
-                sh "echo \$DOCKER_CREDS_PSW | docker login -u \$DOCKER_CREDS_USR --password-stdin"
-                // sh "echo docker tagging"
-                // sh "docker tag ${IMAGE_FRONTEND} swapnaraut28/finlog-frontend:latest"
-                // sh "docker tag ${IMAGE_BACKEND} swapnaraut28/finlog-backend:latest"
-                // sh "docker tag ${IMAGE_POSTGRES} swapnaraut28/postgres:15-alpine"
-                sh "echo docker pushing images"
-                sh "docker push ${IMAGE_FRONTEND}"
-                sh "docker push ${IMAGE_BACKEND}"
-                //sh "docker push ${IMAGE_POSTGRES}"
+                sh '''
+                    echo \$DOCKER_CREDS_PSW | docker login -u \$DOCKER_CREDS_USR --password-stdin
+                    echo docker pushing images
+                    docker push ${IMAGE_FRONTEND}
+                    docker push ${IMAGE_BACKEND}
+                '''
             }
         }
 
@@ -52,9 +52,12 @@ pipeline {
             steps {
                 echo 'Deploying application locally via Docker Compose...'
                 // Restarts your local containers with the newly updated images
-                sh "docker compose down --remove-orphans"
-                sh "docker network prune -f"
-                sh "docker compose up -d"
+                sh '''
+                    cp "$ENV_FILE" .env
+                    docker compose down --remove-orphans
+                    docker network prune -f
+                    docker compose up -d
+                '''
             }
         }
     }
