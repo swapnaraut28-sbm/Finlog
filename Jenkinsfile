@@ -29,7 +29,7 @@ pipeline {
                 echo 'Building production Docker images with environment using docker compose...'
                 sh '''
                 cp "$ENV_FILE" .env
-                docker compose build --no-cache -env-file .env
+                docker compose build --no-cache
                 '''              
                 
             }
